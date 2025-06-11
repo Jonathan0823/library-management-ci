@@ -9,7 +9,7 @@ class BaseApiController extends ResourceController
     protected function respondWithSuccess($data, string $message = 'Success', int $code = 200)
     {
         return $this->respond([
-            'status'  => true,
+            'success'  => true,
             'message' => $message,
             'data'    => $data,
         ], $code);
@@ -18,7 +18,7 @@ class BaseApiController extends ResourceController
     protected function respondWithError($message = 'Something went wrong', int $code = 400)
     {
         return $this->respond([
-            'status'  => false,
+            'success'  => false,
             'message' => $message,
         ], $code);
     }
