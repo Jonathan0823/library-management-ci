@@ -12,4 +12,5 @@ $routes->group('api', function ($routes) {
     $routes->resource('books', ['controller' => 'Api\BookController']);
     $routes->resource('authors', ['controller' => 'Api\AuthorController']);
     $routes->resource('publishers', ['controller' => 'Api\PublisherController']);
+    $routes->resource('members', ['controller' => 'Api\MemberController']);
 });
