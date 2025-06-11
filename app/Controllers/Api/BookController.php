@@ -4,6 +4,8 @@ namespace App\Controllers\Api;
 
 use App\Controllers\Api\BaseApiController;
 use App\Models\BookModel;
+use App\Models\AuthorModel;
+use App\Models\PublisherModel;
 
 class BookController extends BaseApiController
 {
@@ -31,6 +33,17 @@ class BookController extends BaseApiController
     public function create()
     {
         $data = $this->request->getJSON(true);
+        $authorModel = new AuthorModel();
+        $publisherModel = new PublisherModel();
+
+        if (!$authorModel->find($data['author_id'])) {
+            return $this->respondWithError('Author not found', 404);
+        }
+
+        if (!$publisherModel->find($data['publisher_id'])) {
+            return $this->respondWithError('Publisher not found', 404);
+        }
+
         if ($this->model->insert($data)) {
             return $this->respondWithSuccess($data, 'Book created successfully', 201);
         }
