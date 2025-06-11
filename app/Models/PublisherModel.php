@@ -17,7 +17,15 @@ class PublisherModel extends Model
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
 
-    protected $validationRules    = [];
-    protected $validationMessages = [];
+    protected $validationRules    = [
+          'name' => 'required|string|max_length[255]',
+    ];
+    protected $validationMessages = [
+          'name' => [
+              'required'    => 'Author name is required.',
+              'string'      => 'Author name must be a string.',
+              'max_length'  => 'Author name cannot exceed 255 characters.',
+          ],
+    ];
     protected $skipValidation     = false;
 }
