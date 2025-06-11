@@ -1,68 +1,132 @@
-# CodeIgniter 4 Application Starter
+# 📚 Library Management System - CodeIgniter 4
 
-## What is CodeIgniter?
+This is a **full-stack web application** built with **CodeIgniter 4**, starting with a RESTful API backend to manage data for a library system. In the future, this project will evolve into a complete website with both frontend and backend functionality.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+---
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## ✨ Features
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+- RESTful API for managing:
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+  - **Books** (linked to Authors and Publishers)
+  - **Authors**
+  - **Publishers**
+  - **Members**
+  - **Borrow Transactions**
 
-## Installation & updates
+- Input validation via model rules
+- Foreign key checks (e.g., book, author, publisher, member must exist)
+- Base API controller for reusable success/error response handling
+- Modular and scalable project structure
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+---
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+## 🧱 Entity Structure
 
-## Setup
+| Table                 | Description                           |
+| --------------------- | ------------------------------------- |
+| `authors`             | Stores book authors                   |
+| `publishers`          | Stores book publishers                |
+| `books`               | Linked to both authors and publishers |
+| `members`             | Library members                       |
+| `borrow_transactions` | Book borrowing records                |
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+---
 
-## Important Change with index.php
+## 🛠️ Requirements
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+- PHP 8.1 or higher
+- SQL Server
+- Composer
+- PHP Extensions:
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+  - `intl`
+  - `mbstring`
+  - `json` (enabled by default)
+  - `mysqlnd`
 
-**Please** read the user guide for a better explanation of how CI4 works!
+---
 
-## Repository Management
+## 🚀 Getting Started
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+### 🔧 Installation (From Git Repository)
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+```bash
+git clone https://github.com/Jonathan0823/library-management-ci
+cd library-management-ci
+composer install
+cp env .env
+php spark key:generate
+php spark serve
+```
 
-## Server Requirements
+> ⚠️ Make sure you configure the `.env` file with your correct `baseURL` and database credentials.
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+---
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+## ⚙️ Environment Setup
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+Update your `.env` file like this:
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+```
+CI_ENVIRONMENT = development
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+app.baseURL = 'http://localhost:8080/'
+
+database.default.hostname = localhost
+database.default.database = library_db
+database.default.username = root
+database.default.password =
+database.default.DBDriver = SQLSRV
+```
+
+Then, create the database and run your migration or import the schema manually based on your ERD.
+
+---
+
+## 📡 API Endpoints
+
+### 🔍 Books
+
+| Method | Endpoint          | Description         |
+| ------ | ----------------- | ------------------- |
+| GET    | `/api/books`      | Get all books       |
+| GET    | `/api/books/{id}` | Get a specific book |
+| POST   | `/api/books`      | Create a new book   |
+| PUT    | `/api/books/{id}` | Update a book       |
+| DELETE | `/api/books/{id}` | Delete a book       |
+
+Similar CRUD endpoints are available for:
+
+- `/api/authors`
+- `/api/publishers`
+- `/api/members`
+
+### ↻ Borrow Transactions
+
+| Method | Endpoint            | Description                     |
+| ------ | ------------------- | ------------------------------- |
+| GET    | `/api/borrows`      | List all borrow transactions    |
+| GET    | `/api/borrows/{id}` | Get a single borrow transaction |
+| POST   | `/api/borrows`      | Create a new borrow record      |
+| PUT    | `/api/borrows/{id}` | Update borrow record            |
+| DELETE | `/api/borrows/{id}` | Delete borrow record            |
+
+The controller checks whether the `book_id` and `member_id` exist before creating a borrow transaction.
+
+---
+
+## ✅ Validation
+
+- Uses built-in model validation rules (`$validationRules`) for input checks
+- Manual foreign key validation to ensure references to `authors`, `publishers`, and `members` are valid
+
+---
+
+## 🔐 Security & Best Practices
+
+- `public/` directory is the only web-accessible folder (secure entry point)
+- Use virtual host or configure your web server to serve from the `public/` directory only
+- Consistent JSON response structure for errors and success messages
+
+---
