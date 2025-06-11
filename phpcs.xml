@@ -6,6 +6,7 @@
         <exclude name="PEAR.Commenting.FileComment.Missing"/>
         <exclude name="PEAR.Commenting.ClassComment.Missing"/>
         <exclude name="PSR1.Files.SideEffects.FreePass"/>
+        <exclude name="Generic.Files.LineLength.TooLong"/>
     </rule>
 
     <file>./app</file>
