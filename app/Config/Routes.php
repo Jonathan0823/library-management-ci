@@ -7,3 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('about', 'Home::about');
+
+$routes->group('api', function ($routes) {
+    $routes->resource('books', ['controller' => 'Api\BookController']);
+});
