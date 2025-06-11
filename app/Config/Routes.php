@@ -10,4 +10,6 @@ $routes->get('about', 'Home::about');
 
 $routes->group('api', function ($routes) {
     $routes->resource('books', ['controller' => 'Api\BookController']);
+    $routes->resource('authors', ['controller' => 'Api\AuthorController']);
+    $routes->resource('publishers', ['controller' => 'Api\PublisherController']);
 });
