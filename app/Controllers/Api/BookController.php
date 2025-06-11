@@ -34,7 +34,7 @@ class BookController extends BaseApiController
         if ($this->model->insert($data)) {
             return $this->respondCreated($data, 'Book created successfully', 201);
         }
-        return $this->failValidationErrors($this->model->errors());
+        return $this->respondWithError($this->model->errors());
     }
 
     // Put api/books/id
@@ -44,7 +44,7 @@ class BookController extends BaseApiController
         if ($this->model->update($id, $data)) {
             return $this->respondWithSuccess($data, 'Book updated successfully');
         }
-        return $this->failValidationErrors($this->model->errors());
+        return $this->respondWithError($this->model->errors());
     }
 
     // Delete api/books/id

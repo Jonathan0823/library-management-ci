@@ -34,7 +34,7 @@ class AuthorController extends BaseApiController
         if ($this->model->insert($data)) {
             return $this->respondWithSuccess($data, 'Author created successfully', 201);
         }
-        return $this->failValidationErrors($this->model->errors());
+        return $this->respondWithError($this->model->errors());
     }
 
     // Put api/authors/id
@@ -44,7 +44,7 @@ class AuthorController extends BaseApiController
         if ($this->model->update($id, $data)) {
             return $this->respondWithSuccess($data, 'Author updated successfully');
         }
-        return $this->failValidationErrors($this->model->errors());
+        return $this->respondWithError($this->model->errors());
     }
 
     // Delete api/authors/id
