@@ -13,7 +13,7 @@ class CreateBooksTable extends Migration
               'title'            => ['type' => 'VARCHAR', 'constraint' => 255],
               'author_id'        => ['type' => 'INT', 'unsigned' => true],
               'publisher_id'     => ['type' => 'INT', 'unsigned' => true],
-              'publication_year' => ['type' => 'YEAR'],
+              'publication_year' => ['type' => 'INT', 'constraint' => 4],
               'quantity'         => ['type' => 'INT', 'default' => 0],
               'available_quantity' => ['type' => 'INT', 'default' => 0],
               'created_at'       => ['type' => 'DATETIME', 'null' => true],
