@@ -13,4 +13,5 @@ $routes->group('api', function ($routes) {
     $routes->resource('authors', ['controller' => 'Api\AuthorController']);
     $routes->resource('publishers', ['controller' => 'Api\PublisherController']);
     $routes->resource('members', ['controller' => 'Api\MemberController']);
+    $routes->resource('borrows', ['controller' => 'Api\BorrowTransactionController']);
 });
