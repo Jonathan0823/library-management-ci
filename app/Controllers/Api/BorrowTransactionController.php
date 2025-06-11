@@ -4,11 +4,21 @@ namespace App\Controllers\Api;
 
 use App\Controllers\Api\BaseApiController;
 use App\Models\BorrowTransactionModel;
+use App\Models\BookModel;
+use App\Models\MemberModel;
 
 class BorrowTransactionController extends BaseApiController
 {
     protected $modelName = BorrowTransactionModel::class;
     protected $format    = 'json';
+    protected $bookModel;
+    protected $memberModel;
+
+    public function __construct()
+    {
+        $this->bookModel = new BookModel();
+        $this->memberModel = new MemberModel();
+    }
 
     // Get api/borrows/
     public function index()
@@ -31,6 +41,16 @@ class BorrowTransactionController extends BaseApiController
     public function create()
     {
         $data = $this->request->getJSON(true);
+
+
+        if (!$this->bookModel->find($data['book_id'])) {
+            return $this->respondWithError('Book not found', 404);
+        }
+
+        if (!$this->memberModel->find($data['member_id'])) {
+            return $this->respondWithError('Member not found', 404);
+        }
+
         if ($this->model->insert($data)) {
             return $this->respondWithSuccess($data, 'Borrow created successfully', 201);
         }

@@ -12,6 +12,15 @@ class BookController extends BaseApiController
     protected $modelName = BookModel::class;
     protected $format    = 'json';
 
+    protected $authorModel;
+    protected $publisherModel;
+
+    public function __construct()
+    {
+        $this->authorModel = new AuthorModel();
+        $this->publisherModel = new PublisherModel();
+    }
+
     // Get api/books/
     public function index()
     {
@@ -33,14 +42,12 @@ class BookController extends BaseApiController
     public function create()
     {
         $data = $this->request->getJSON(true);
-        $authorModel = new AuthorModel();
-        $publisherModel = new PublisherModel();
 
-        if (!$authorModel->find($data['author_id'])) {
+        if (!$this->authorModel->find($data['author_id'])) {
             return $this->respondWithError('Author not found', 404);
         }
 
-        if (!$publisherModel->find($data['publisher_id'])) {
+        if (!$this->publisherModel->find($data['publisher_id'])) {
             return $this->respondWithError('Publisher not found', 404);
         }
 
