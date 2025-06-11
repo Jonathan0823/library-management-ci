@@ -32,7 +32,7 @@ class BookController extends BaseApiController
     {
         $data = $this->request->getJSON(true);
         if ($this->model->insert($data)) {
-            return $this->respondCreated($data, 'Book created successfully', 201);
+            return $this->respondWithSuccess($data, 'Book created successfully', 201);
         }
         return $this->respondWithError($this->model->errors());
     }
