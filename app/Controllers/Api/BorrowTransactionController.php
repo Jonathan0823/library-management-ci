@@ -27,7 +27,10 @@ class BorrowTransactionController extends BaseApiController
     // Get api/borrows/
     public function index()
     {
-        $borrows = $this->model->findAll();
+        $borrows = $this->model->select('borrow_transactions.*, books.title as book_title, members.name as member_name')
+            ->join('books', 'books.id = borrow_transactions.book_id')
+            ->join('members', 'members.id = borrow_transactions.member_id')
+            ->findAll();
         return $this->respondWithSuccess($borrows, 'Borrows retrieved successfully');
     }
 
@@ -44,7 +47,7 @@ class BorrowTransactionController extends BaseApiController
     // Post api/borrows/
     public function create()
     {
-        $data = $this->request->getPost();
+        $data = $this->request->getPost(); // karena dari form
 
         $book = $this->bookModel->find($data['book_id']);
         $member = $this->memberModel->find($data['member_id']);
@@ -57,13 +60,13 @@ class BorrowTransactionController extends BaseApiController
             return $this->respondWithError('Member not found', 404);
         }
 
-        if ($book['available_quantity'] < 1) {
+        if ((int) $book->available_quantity < 1) {
             return $this->respondWithError('No available stock for this book', 400);
         }
 
         if ($this->model->insert($data)) {
-            $this->bookModel->update($book['id'], [
-                'available_quantity' => $book['available_quantity'] - 1
+            $this->bookModel->update($book->id, [
+                'available_quantity' => $book->available_quantity - 1
             ]);
 
             return $this->respondWithSuccess($data, 'Borrow created successfully', 201);
@@ -93,16 +96,16 @@ class BorrowTransactionController extends BaseApiController
                 return $this->respondWithError('New book not found', 404);
             }
 
-            if ($newBook['available_quantity'] < 1) {
+            if ($newBook->available_quantity < 1) {
                 return $this->respondWithError('No available stock for the new book', 400);
             }
 
             $this->bookModel->update($oldBookId, [
-                'available_quantity' => $oldBook['available_quantity'] + 1
+                'available_quantity' => $oldBook->available_quantity + 1
             ]);
 
             $this->bookModel->update($newBookId, [
-                'available_quantity' => $newBook['available_quantity'] - 1
+                'available_quantity' => $newBook->available_quantity - 1
             ]);
         }
 
@@ -116,20 +119,20 @@ class BorrowTransactionController extends BaseApiController
     // Delete api/borrows/id
     public function delete($id = null)
     {
-        // 1. Ambil data peminjaman
         $borrow = $this->model->find($id);
         if (!$borrow) {
             return $this->respondWithError('Borrow not found', 404);
         }
 
-        // 2. Ambil data buku yang dipinjam
-        $book = $this->bookModel->find($borrow['book_id']);
+        $book = $this->bookModel->find($borrow->book_id);
         if ($book) {
             // 3. Tambahkan kembali stok buku
-            $this->bookModel->update($book['id'], [
-                'available_quantity' => $book['available_quantity'] + 1
+            $this->bookModel->update($book->id, [
+                'available_quantity' => $book->available_quantity + 1
             ]);
         }
+
+        log_message('error', 'Ini error-nya: ' . print_r($book, true));
 
         // 4. Hapus data peminjaman
         if ($this->model->delete($id)) {
