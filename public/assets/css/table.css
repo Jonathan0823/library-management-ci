@@ -1,5 +1,5 @@
-#bookTable th,
-#bookTable td {
+table th,
+table td {
   vertical-align: middle;
   text-align: center;
 }
