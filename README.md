@@ -1,6 +1,6 @@
 # 📚 Library Management System - CodeIgniter 4
 
-This is a **full-stack web application** built with **CodeIgniter 4**, starting with a RESTful API backend to manage data for a library system. In the future, this project will evolve into a complete website with both frontend and backend functionality.
+This is a **full-stack web application** built with **CodeIgniter 4**, starting with a RESTful API backend to manage data for a library system.
 
 ---
 
@@ -12,11 +12,14 @@ This is a **full-stack web application** built with **CodeIgniter 4**, starting 
   - **Authors**
   - **Publishers**
   - **Members**
-  - **Borrow Transactions**
+  - **Borrow Transactions** (linking Books and Members)
 
 - Input validation via model rules
+
 - Foreign key checks (e.g., book, author, publisher, member must exist)
+
 - Base API controller for reusable success/error response handling
+
 - Modular and scalable project structure
 
 ---
@@ -82,9 +85,15 @@ database.default.DBDriver = SQLSRV
 
 Then, create the database and run your migration or import the schema manually based on your ERD.
 
+To run migrations, use:
+
+```bash
+php spark migrate
+```
+
 ---
 
-## 📡 API Endpoints
+## 📱 API Endpoints
 
 ### 🔍 Books
 
@@ -128,5 +137,21 @@ The controller checks whether the `book_id` and `member_id` exist before creatin
 - `public/` directory is the only web-accessible folder (secure entry point)
 - Use virtual host or configure your web server to serve from the `public/` directory only
 - Consistent JSON response structure for errors and success messages
+
+---
+
+## 🚪 Frontend Page Routing
+
+These are the planned frontend routes for managing the library system:
+
+| Route         | Description                    |
+| ------------- | ------------------------------ |
+| `/`           | View and manage book data      |
+| `/authors`    | Manage author list             |
+| `/publishers` | Manage publisher list          |
+| `/members`    | Manage library members         |
+| `/borrows`    | View and manage borrow records |
+
+> These pages will consume the API and provide a responsive UI for managing the library system.
 
 ---
