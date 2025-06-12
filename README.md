@@ -1,6 +1,6 @@
 # 📚 Library Management System - CodeIgniter 4
 
-This is a **full-stack web application** built with **CodeIgniter 4**, starting with a RESTful API backend to manage data for a library system.
+This is a **full-stack web application** built with **CodeIgniter 4**, starting with a RESTful API backend to manage data for a library system. It includes models, controllers, and migrations for managing books, authors, publishers, members, and borrow transactions. The project is designed to be modular and scalable, with a focus on clean architecture and best practices. This project uses AJAX for frontend interactions, allowing for a responsive user interface. and Datatables for displaying data.
 
 ---
 
@@ -12,7 +12,7 @@ This is a **full-stack web application** built with **CodeIgniter 4**, starting 
   - **Authors**
   - **Publishers**
   - **Members**
-  - **Borrow Transactions** (linking Books and Members)
+  - **Borrow Transactions** (linked to Books and Members)
 
 - Input validation via model rules
 
