@@ -9,6 +9,7 @@ $routes->get('/', 'Books::index');
 $routes->get('authors', 'Authors::index');
 $routes->get('publishers', 'Publishers::index');
 $routes->get('members', 'Members::index');
+$routes->get('borrows', 'Borrows::index');
 
 $routes->group('api', function ($routes) {
     $routes->resource('books', ['controller' => 'Api\BookController']);
