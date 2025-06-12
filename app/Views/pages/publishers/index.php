@@ -22,7 +22,7 @@
                 <div class="modal-body">
                   <input type="hidden" id="publisherId" name="id">
                   <div class="mb-3">
-                    <label for="publisher_name" class="form-label">publisher Name</label>
+                    <label for="publisher_name" class="form-label">Publisher Name</label>
                     <input type="text" class="form-control" id="publisher_name" name="name" required>
                   </div>
                 </div>
@@ -36,7 +36,7 @@
         </div>
 
         <!-- Tombol dan Tabel -->
-        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#publisherModal">Add Publisher</button>
+        <button class="btn btn-primary mb-3 publisher_title" data-bs-toggle="modal" data-bs-target="#publisherModal">Add Publisher</button>
         <div class="table-responsive">
           <table id="publisherTable" class="table table-bordered table-hover table-striped datatable">
               <thead>
@@ -117,6 +117,7 @@
   $(document).on('click', '.edit-btn', function () {
     const publisherId = $(this).data('id');
     $('#publisherModal').modal('show');
+    $('.publisher-title').text('Edit Member');
 
     $.getJSON(`<?= base_url('api/publishers'); ?>/${publisherId}`, function (res) {
       const publisher = res.data;

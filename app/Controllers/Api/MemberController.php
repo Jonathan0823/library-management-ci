@@ -34,7 +34,7 @@ class MemberController extends BaseApiController
     // Post api/members/
     public function create()
     {
-        $data = $this->request->getJSON(true);
+        $data = $this->request->getPost();
         if ($this->model->insert($data)) {
             return $this->respondWithSuccess($data, 'Member created successfully', 201);
         }
