@@ -34,7 +34,7 @@ class PublisherController extends BaseApiController
     // Post api/publishers/
     public function create()
     {
-        $data = $this->request->getJSON(true);
+        $data = $this->request->getPost();
         if ($this->model->insert($data)) {
             return $this->respondWithSuccess($data, 'Publisher created successfully', 201);
         }
