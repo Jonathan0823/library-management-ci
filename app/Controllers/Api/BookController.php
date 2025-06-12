@@ -51,7 +51,7 @@ class BookController extends BaseApiController
     // Post api/books/
     public function create()
     {
-        $data = $this->request->getJSON(true);
+        $data = $this->request->getPost();
 
         if (!$this->authorModel->find($data['author_id'])) {
             return $this->respondWithError('Author not found', 404);
