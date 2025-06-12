@@ -9,6 +9,10 @@ use App\Models\MemberModel;
 
 class BorrowTransactionController extends BaseApiController
 {
+    /**
+     * @var BorrowTransactionModel
+     */
+    protected $model;
     protected $modelName = BorrowTransactionModel::class;
     protected $format    = 'json';
     protected $bookModel;

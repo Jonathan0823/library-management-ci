@@ -7,6 +7,10 @@ use App\Models\MemberModel;
 
 class MemberController extends BaseApiController
 {
+    /**
+     * @var MemberModel
+     */
+    protected $model;
     protected $modelName = MemberModel::class;
     protected $format    = 'json';
 

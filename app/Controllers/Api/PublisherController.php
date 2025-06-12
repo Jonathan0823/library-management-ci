@@ -7,6 +7,10 @@ use App\Models\PublisherModel;
 
 class PublisherController extends BaseApiController
 {
+    /**
+     * @var PublisherModel
+     */
+    protected $model;
     protected $modelName = PublisherModel::class;
     protected $format    = 'json';
 

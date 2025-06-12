@@ -9,6 +9,10 @@ use App\Models\PublisherModel;
 
 class BookController extends BaseApiController
 {
+    /**
+      @var BookModel
+     */
+    protected $model;
     protected $modelName = BookModel::class;
     protected $format    = 'json';
 
@@ -24,14 +28,20 @@ class BookController extends BaseApiController
     // Get api/books/
     public function index()
     {
-        $books = $this->model->findAll();
+        $books = $this->model->select('books.*, authors.name as author_name, publishers.name as publisher_name')
+            ->join('authors', 'authors.id = books.author_id')
+            ->join('publishers', 'publishers.id = books.publisher_id')
+            ->findAll();
         return $this->respondWithSuccess($books, 'Books retrieved successfully');
     }
 
     // Get api/books/id
     public function show($id = null)
     {
-        $book = $this->model->find($id);
+        $book = $this->model->select('books.*, authors.name as author_name, publishers.name as publisher_name')
+            ->join('authors', 'authors.id = books.author_id')
+            ->join('publishers', 'publishers.id = books.publisher_id')
+            ->find($id);
         if (!$book) {
             return $this->respondWithError('Book not found', 404);
         }

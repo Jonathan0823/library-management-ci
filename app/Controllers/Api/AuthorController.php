@@ -7,6 +7,10 @@ use App\Models\AuthorModel;
 
 class AuthorController extends BaseApiController
 {
+    /**
+     * @var AuthorModel
+     */
+    protected $model;
     protected $modelName = AuthorModel::class;
     protected $format    = 'json';
 
