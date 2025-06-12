@@ -5,8 +5,8 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
-$routes->get('books', 'Books::index');
+$routes->get('/', 'Books::index');
+$routes->get('authors', 'Authors::index');
 
 $routes->group('api', function ($routes) {
     $routes->resource('books', ['controller' => 'Api\BookController']);
