@@ -12,11 +12,12 @@
     <?= $this->renderSection('styles'); ?>
 
 
-    <style>
+      <style>
         body {
             display: flex;
             min-height: 100vh;
             flex-direction: column;
+            background-color: #f4f7f6; /* Warna latar belakang umum */
         }
         .wrapper {
             flex: 1;
@@ -24,19 +25,51 @@
         }
         .sidebar {
             width: 250px;
-            background-color: #f8f9fa;
+            background-color: #ffffff; /* Latar belakang sidebar putih */
             padding: 20px;
-            border-right: 1px solid #dee2e6;
+            border-right: 1px solid #e0e0e0; /* Border lebih soft */
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05); /* Sedikit shadow */
+            transition: width 0.3s ease; /* Transisi untuk lebar sidebar jika nanti ada toggle */
+        }
+        .sidebar-header {
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #343a40;
+            font-weight: bold;
+        }
+        .sidebar .nav-link {
+            color: #495057; /* Warna teks link default */
+            padding: 10px 15px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .sidebar .nav-link:hover {
+            background-color: #e9ecef; /* Warna hover */
+            color: #212529;
+        }
+        /* Styling untuk link aktif */
+        .sidebar .nav-link.active-page { /* Menggunakan kelas baru 'active-page' */
+            background-color: #007bff; /* Warna latar belakang aktif */
+            color: white; /* Warna teks aktif */
+            font-weight: bold;
+        }
+        .sidebar .nav-link.active-page:hover {
+            background-color: #0056b3; /* Warna hover untuk aktif */
+            color: white;
         }
         .content {
             flex-grow: 1;
             padding: 20px;
+            background-color: #f4f7f6; /* Latar belakang konten */
         }
         .footer {
             background-color: #343a40;
             color: white;
             text-align: center;
             padding: 15px 0;
+            margin-top: auto; /* Memastikan footer selalu di bawah */
         }
     </style>
 </head>
@@ -53,10 +86,9 @@
 
     <div class="wrapper">
         <nav class="sidebar">
-            <h5 class="mb-3">Navigation</h5>
-            <ul class="nav flex-column">
+            <h5 class="sidebar-header">Navigation</h5> <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="<?php echo base_url(); ?>">Books</a>
+                    <a class="nav-link" href="<?php echo base_url(); ?>">Books</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo base_url('publishers'); ?>">Publishers</a>
@@ -80,11 +112,42 @@
         </div>
     </footer>
 
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+
+    <script>
+        $(document).ready(function() {
+            const currentPath = window.location.pathname;
+            const baseUrl = '<?= base_url(); ?>';
+
+            function normalizePath(path) {
+                let normalized = path.replace(baseUrl, '/'); // Ganti base_url dengan '/'
+                if (normalized.endsWith('/') && normalized.length > 1) {
+                    normalized = normalized.slice(0, -1); // Hapus trailing slash jika bukan hanya '/'
+                }
+                return normalized;
+            }
+
+            const normalizedCurrentPath = normalizePath(currentPath);
+            console.log("Normalized Current Path:", normalizedCurrentPath);
+
+            $('.sidebar .nav-link').each(function() {
+                const linkHref = $(this).attr('href');
+                const normalizedLinkHref = normalizePath(linkHref);
+                if (normalizedLinkHref === '/' && normalizedCurrentPath === '/') {
+                    $(this).addClass('active-page');
+                } 
+                else if (normalizedLinkHref !== '/' && normalizedCurrentPath.startsWith(normalizedLinkHref)) {
+                    $(this).addClass('active-page');
+                }
+            });
+        });
+    </script>
 
     <?= $this->renderSection('scripts'); ?>
 
