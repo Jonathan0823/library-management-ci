@@ -56,10 +56,7 @@
             <h5 class="mb-3">Navigation</h5>
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="<?php echo base_url(); ?>">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url('books'); ?>">Books</a>
+                    <a class="nav-link active" aria-current="page" href="<?php echo base_url(); ?>">Books</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo base_url('publishers'); ?>">Publishers</a>
