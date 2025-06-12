@@ -44,20 +44,31 @@ class BorrowTransactionController extends BaseApiController
     // Post api/borrows/
     public function create()
     {
-        $data = $this->request->getJSON(true);
+        $data = $this->request->getPost();
 
+        $book = $this->bookModel->find($data['book_id']);
+        $member = $this->memberModel->find($data['member_id']);
 
-        if (!$this->bookModel->find($data['book_id'])) {
+        if (!$book) {
             return $this->respondWithError('Book not found', 404);
         }
 
-        if (!$this->memberModel->find($data['member_id'])) {
+        if (!$member) {
             return $this->respondWithError('Member not found', 404);
         }
 
+        if ($book['available_quantity'] < 1) {
+            return $this->respondWithError('No available stock for this book', 400);
+        }
+
         if ($this->model->insert($data)) {
+            $this->bookModel->update($book['id'], [
+                'available_quantity' => $book['available_quantity'] - 1
+            ]);
+
             return $this->respondWithSuccess($data, 'Borrow created successfully', 201);
         }
+
         return $this->respondWithError($this->model->errors());
     }
 
@@ -65,18 +76,66 @@ class BorrowTransactionController extends BaseApiController
     public function update($id = null)
     {
         $data = $this->request->getJSON(true);
+
+        $oldBorrow = $this->model->find($id);
+        if (!$oldBorrow) {
+            return $this->respondWithError('Borrow record not found', 404);
+        }
+
+        $oldBookId = $oldBorrow['book_id'];
+        $newBookId = $data['book_id'];
+
+        if ($oldBookId != $newBookId) {
+            $oldBook = $this->bookModel->find($oldBookId);
+            $newBook = $this->bookModel->find($newBookId);
+
+            if (!$newBook) {
+                return $this->respondWithError('New book not found', 404);
+            }
+
+            if ($newBook['available_quantity'] < 1) {
+                return $this->respondWithError('No available stock for the new book', 400);
+            }
+
+            $this->bookModel->update($oldBookId, [
+                'available_quantity' => $oldBook['available_quantity'] + 1
+            ]);
+
+            $this->bookModel->update($newBookId, [
+                'available_quantity' => $newBook['available_quantity'] - 1
+            ]);
+        }
+
         if ($this->model->update($id, $data)) {
             return $this->respondWithSuccess($data, 'Borrow updated successfully');
         }
+
         return $this->respondWithError($this->model->errors());
     }
 
     // Delete api/borrows/id
     public function delete($id = null)
     {
+        // 1. Ambil data peminjaman
+        $borrow = $this->model->find($id);
+        if (!$borrow) {
+            return $this->respondWithError('Borrow not found', 404);
+        }
+
+        // 2. Ambil data buku yang dipinjam
+        $book = $this->bookModel->find($borrow['book_id']);
+        if ($book) {
+            // 3. Tambahkan kembali stok buku
+            $this->bookModel->update($book['id'], [
+                'available_quantity' => $book['available_quantity'] + 1
+            ]);
+        }
+
+        // 4. Hapus data peminjaman
         if ($this->model->delete($id)) {
             return $this->respondWithSuccess(null, 'Borrow deleted successfully');
         }
-        return $this->respondWithError('Borrow not found or could not be deleted', 404);
+
+        return $this->respondWithError('Borrow could not be deleted', 500);
     }
 }
