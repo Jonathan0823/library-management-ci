@@ -34,7 +34,7 @@ class AuthorController extends BaseApiController
     // Post api/authors/
     public function create()
     {
-        $data = $this->request->getJSON(true);
+        $data = $this->request->getPost();
         if ($this->model->insert($data)) {
             return $this->respondWithSuccess($data, 'Author created successfully', 201);
         }
