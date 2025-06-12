@@ -85,8 +85,8 @@ class BorrowTransactionController extends BaseApiController
             return $this->respondWithError('Borrow record not found', 404);
         }
 
-        $oldBookId = $oldBorrow['book_id'];
-        $newBookId = $data['book_id'];
+        $oldBookId = $oldBorrow->book_id;
+        $newBookId = $data->book_id ?? $oldBookId;
 
         if ($oldBookId != $newBookId) {
             $oldBook = $this->bookModel->find($oldBookId);
