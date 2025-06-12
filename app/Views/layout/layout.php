@@ -91,13 +91,16 @@
                     <a class="nav-link" href="<?php echo base_url(); ?>">Books</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url('authors'); ?>">Authors</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="<?php echo base_url('publishers'); ?>">Publishers</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo base_url('members'); ?>">Members</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url('authors'); ?>">Authors</a>
+                    <a class="nav-link" href="<?php echo base_url('borrows'); ?>">Borrows</a>
                 </li>
             </ul>
         </nav>
