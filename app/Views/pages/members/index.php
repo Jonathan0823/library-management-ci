@@ -140,16 +140,15 @@
                 console.log("Member data to populate form:", member);
                 $('#memberId').val(member.id);
                 $('#member_name').val(member.name);
-                $('#member_address').val(member.address || ''); // Added || '' for safety
-                $('#member_phone').val(member.phone || '');    // Added || '' for safety
-                $('#member_email').val(member.email || '');    // Added || '' for safety
+                $('#member_address').val(member.address || '');
+                $('#member_phone').val(member.phone || '');
+                $('#member_email').val(member.email || '');
                 $('#memberModal').modal('show');
             }).fail(function() {
                 alert('Failed to fetch member data for editing!');
             });
         });
 
-        // Event listener for Delete button click
         $(document).on('click', '.delete-btn', function () {
             const memberId = $(this).data('id');
 

@@ -129,7 +129,7 @@
   $(document).on('click', '.delete-btn', function () {
     const authorId = $(this).data('id');
 
-    if (confirm('Yakin ingin menghapus buku ini?')) {
+    if (confirm('Are you sure you want to delete this author?')) {
       $.ajax({
         url: `<?= base_url('api/authors'); ?>/${authorId}`,
         method: 'DELETE',

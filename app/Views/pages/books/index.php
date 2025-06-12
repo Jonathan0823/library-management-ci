@@ -198,7 +198,7 @@
   $(document).on('click', '.delete-btn', function () {
     const bookId = $(this).data('id');
 
-    if (confirm('Yakin ingin menghapus buku ini?')) {
+    if (confirm('Are you sure you want to delete this book?')) {
       $.ajax({
         url: `<?= base_url('api/books'); ?>/${bookId}`,
         method: 'DELETE',
@@ -206,7 +206,7 @@
           $('#bookTable').DataTable().ajax.reload();
         },
         error: function () {
-          alert('Gagal menghapus data!');
+          alert('Failed to delete data!');
         }
       });
     }
